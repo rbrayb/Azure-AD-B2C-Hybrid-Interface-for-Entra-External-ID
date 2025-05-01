@@ -1,8 +1,12 @@
-# Upgrade ready architecture: AAD B2C to Entra External Id for Customers
+# Azure-AD-B2C-Hybrid-Interface-for-Entra-External-ID
 
 ## Summary
 
 This sample will use AAD B2C as the journey orchestrator, whilst creating and authenticating users in the Entra External Id tenant. This makes it easier in the future to move apps to Entra External Id without disruption to your users. This sample performs sign up/in with MFA using Azure AD B2C, whilst maintaining user profiles in the Entra External Id tenant.
+
+Use B2C custom policies with the user data residing on an Entra External ID tenant
+
+Cloned from this [sample](https://github.com/azure-ad-b2c/samples/tree/master/policies/migrate-to-entra-external-id-for-customers)
 
 ## How it works
 
