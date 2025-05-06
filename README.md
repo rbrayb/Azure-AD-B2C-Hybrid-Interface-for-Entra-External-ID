@@ -1,16 +1,41 @@
-# Azure-AD-B2C-Hybrid-Interface-for-Entra-External-ID
+# Azure AD B2C Hybrid Interface for Entra External ID
+
+**Note**. This is a PoC. Use at **your own risk**.
+
+Please log any issues or questions in the repo.
 
 ## Summary
 
 This sample will use AAD B2C as the journey orchestrator, whilst creating and authenticating users in the Entra External Id tenant. This makes it easier in the future to move apps to Entra External Id without disruption to your users. This sample performs sign up/in with MFA using Azure AD B2C, whilst maintaining user profiles in the Entra External Id tenant.
 
-Use B2C custom policies with the user data residing on an Entra External ID tenant
+This allows you to use B2C custom policies with the user data residing on an Entra External ID tenant
 
-Cloned from this [sample](https://github.com/azure-ad-b2c/samples/tree/master/policies/migrate-to-entra-external-id-for-customers)
+This repo. was cloned from this [sample](https://github.com/azure-ad-b2c/samples/tree/master/policies/migrate-to-entra-external-id-for-customers)
 
-## How it works
+The original sample only implemented a subset of the API calls. This repo. implements them all. 
 
-Users are sent to the AAD B2C authentiaction endpoint. An Azure function orchestrates all Read/Write operations to the Entra External Id directory.
+This repo. also implements authentication using native auth. rather than ROPC.
+
+Refer to the blog post describing this process.
+
+## REST API
+
+There are REST API for:
+
+* "REST-CIAM-UserReadUsingObjectIdOrEmail"
+* "REST-CIAM-UserReadUsingAlternativeSecurityId"
+* "REST-CIAM-UserWriteUsingLogonEmail"
+* "REST-CIAM-UserWriteUsingAlternativeSecurityId"
+* "REST-login-NonInteractive-CIAM"
+* "REST-fetchUserProfile-CIAM"
+* "REST-CIAM-UserUpdateUsingLogonEmail"
+
+The source for the REST AI is an an Azure function but the repo. uses ngrok so those calls 
+need to be replaced with the actual function URL. 
+
+## Original set up instructions - How it works
+
+Users are sent to the AAD B2C authentication endpoint. An Azure function orchestrates all Read/Write operations to the Entra External Id directory.
 
 ![High level design](media/high-level-design.png)
 
