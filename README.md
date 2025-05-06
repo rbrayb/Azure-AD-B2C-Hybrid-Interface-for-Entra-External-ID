@@ -18,6 +18,10 @@ This repo. also implements authentication using native auth. rather than ROPC.
 
 Refer to the blog post describing this process.
 
+The code also includes RP for "Profile Edit" and "Password Reset".
+
+The RP for the main flow in inside the policy.
+
 ## REST API
 
 There are REST API for:
@@ -32,6 +36,18 @@ There are REST API for:
 
 The source for the REST AI is an an Azure function but the repo. uses ngrok so those calls 
 need to be replaced with the actual function URL. 
+
+## Functionality
+
+The code handles:
+
+* Local account signup via link on the login page
+* Local account sign-in via login page using native authentication, not ROPC
+* Social account logins via federation buttons on the login page
+* MFA via SMS
+* Password reset via embedded link on the login page
+* Password reset via RP
+* Profile edit via RP
 
 ## Original set up instructions - How it works
 
