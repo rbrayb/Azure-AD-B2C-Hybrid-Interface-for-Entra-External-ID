@@ -16,7 +16,7 @@ The original sample only implemented a subset of the API calls. This repo. imple
 
 This repo. also implements authentication using native auth. rather than ROPC.
 
-Refer to the blog post describing this process.
+Refer to the [blog post](https://medium.com/the-new-control-plane/integrating-the-entra-external-id-hybrid-approach-via-custom-policies-with-the-azure-ad-b2c-mfa-14bb6a787bf4) describing this process.
 
 The code also includes RP for "Profile Edit" and "Password Reset".
 
