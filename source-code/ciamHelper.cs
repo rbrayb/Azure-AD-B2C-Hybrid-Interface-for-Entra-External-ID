@@ -27,7 +27,6 @@ namespace readUser
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
             ILogger log)
         {
-            //log.LogInformation("C# HTTP trigger function processed a request.");
             Console.WriteLine("\n" + "C# HTTP trigger function processed a request.");
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
@@ -64,9 +63,11 @@ namespace readUser
                 using (var httpClient = new HttpClient())
                 {
                     // Add Host header
+					// TODO: Add Entra External IDP tenant name
                     httpClient.DefaultRequestHeaders.Host = "tenant-name.ciamlogin.com";
 
                     // Step 1: Initiate
+					// TODO: Add Entra External IDP tenant name
                     var initiateUrl = "https://tenant-name.ciamlogin.com/tenant-name.onmicrosoft.com/oauth2/v2.0/initiate";
                     var initiateRequestBody = new Dictionary<string, string>
                     {
@@ -94,6 +95,7 @@ namespace readUser
                     var continuationToken = initiateJson["continuation_token"].ToString();
 
                     // Step 2: Challenge
+					// TODO: Add Entra External IDP tenant name and client_id
                     var challengeUrl = "https://tenant-name.ciamlogin.com/tenant-name.onmicrosoft.com/oauth2/v2.0/challenge";
                     var challengeRequestBody = new Dictionary<string, string>
                     {
@@ -114,6 +116,7 @@ namespace readUser
                     continuationToken = challengeJson["continuation_token"].ToString();
 
                     // Step 3: Token
+					// TODO: Add Entra External IDP tenant name and client_id
                     var tokenUrl = "https://tenant-name.ciamlogin.com/tenant-name.onmicrosoft.com/oauth2/v2.0/token";
                     var tokenRequestBody = new Dictionary<string, string>
                     {
@@ -201,6 +204,7 @@ namespace readUser
                     Console.WriteLine("\n" + "----------------------------------------------");
                     Console.WriteLine("\n" + "Email - Reading user " + email);
 
+					// TODO: Add Entra External IDP tenant name
                     var user = await graphClient.Users.GetAsync((requestConfiguration) =>
                     {
                         requestConfiguration.QueryParameters.Filter = string.Format("identities/any(x:x/issuerAssignedId eq '{0}' " +
@@ -253,6 +257,7 @@ namespace readUser
                     // Generate a new GUID
                     Guid newGuid = Guid.NewGuid();
 
+					// TODO: Add tenant name
                     upn = string.Format("cpim_{0}@{1}", newGuid, tenantName);
 
                     var userRequestBody = new User
@@ -275,6 +280,7 @@ namespace readUser
                             new ObjectIdentity
                             {
                                 SignInType = "userPrincipalName",
+								// TODO: Add Entra External IDP tenant name
                                 Issuer = "tenant-name.onmicrosoft.com",
                                 IssuerAssignedId = upn
                             },
@@ -408,23 +414,13 @@ namespace readUser
                     {
                         DisplayName = displayName,
                         GivenName = givenName,
-                        Surname = surName,
-                        //UserPrincipalName = upn,
-                        //Identities = new List<ObjectIdentity>
-                        //{
-                        //    new ObjectIdentity
-                        //    {
-                        //        SignInType = "emailAddress",
-                        //        Issuer = "tenant-name.onmicrosoft.com",
-                        //        IssuerAssignedId = email,
-                        //    }
-                        //}
+                        Surname = surName,                        
                     };
 
                     try
                     {
                         var updatedUser = await graphClient.Users[objectId].PatchAsync(userUpdateBody);
-                        //var updatedUser = await graphClient.Users[objectId].GetAsync();
+                        
                         return new OkObjectResult(updatedUser);
                     }
 
@@ -479,9 +475,7 @@ namespace readUser
                                 Console.WriteLine($"Given Name: {user.GivenName}");
                                 Console.WriteLine($"Surname: {user.Surname}");
                                 Console.WriteLine($"Email: {user.Mail}");
-                                Console.WriteLine($"User Principal Name (UPN): {user.UserPrincipalName}");
-                                //Console.WriteLine($"Mobile Phone: {user.MobilePhone}");
-                                //Console.WriteLine($"Identities: {string.Join(", ", user.Identities?.Select(i => i.IssuerAssignedId) ?? new List<string>())}");
+                                Console.WriteLine($"User Principal Name (UPN): {user.UserPrincipalName}");                                
                                 Console.WriteLine("--------------------------------------------------");
 
                                 return new OkObjectResult(user);
@@ -525,6 +519,7 @@ namespace readUser
                     Guid newGuid = Guid.NewGuid();
                     Guid passwordGuid = Guid.NewGuid();
 
+					// TODO: Add tenant name
                     string newUPN = string.Format("cpim_{0}@{1}", newGuid, tenantName);
 
                     try
@@ -537,18 +532,10 @@ namespace readUser
                             Surname = surName,
                             UserPrincipalName = newUPN,
                             Identities = new List<ObjectIdentity>
-                        {
-                            // userPrincipalName tenant-name.onmicrosoft.com AdeleS@tenant-name.onmicrosoft.com
-
-                            //new ObjectIdentity
-                            //{
-                            //    SignInType = "emailAddress",
-                            //    // TODO: Add Entra External IDP tenant name
-                            //    Issuer = "tenant-name.onmicrosoft.com",
-                            //    IssuerAssignedId = email,
-                            //}
+                        {                          
 
                             // UPN Identity
+							// TODO: Add Entra External IDP tenant name
                             new ObjectIdentity
                             {
                                 SignInType = "userPrincipalName",
